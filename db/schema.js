@@ -1,14 +1,15 @@
-const Schema = require("./connection.js")
+const mongoose = require("./connection.js")
 
-const EventSchema = new Schema({
+const EventSchema = new mongoose.Schema({
   description: String,
   name: String,
   position: {
     lat: Number,
     lng: Number
-  }
-  time: Date,
-  participants: Array,
+  },
+  date: String,
+  time: String,
+  participants: Array
 })
 
 // const UserSchema = new Schema({
@@ -16,9 +17,7 @@ const EventSchema = new Schema({
 //   events: [EventSchema]
 // })
 
-const Event = mongoose.model("Event", EventSchema)
+mongoose.model("Event", EventSchema)
 // const User = mongoose.model("User", UserSchema)
 
-module.exports = {
-  Event
-}
+module.exports = mongoose
