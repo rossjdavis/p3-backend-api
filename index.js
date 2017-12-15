@@ -2,6 +2,7 @@ const express = require("express")
 const parser = require("body-parser")
 const cors = require("cors")
 const mongoose = require("./db/schema.js")
+const Event = mongoose.model("Event")
 
 const app = express()
 
