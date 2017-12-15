@@ -1,11 +1,9 @@
-const mongoose = require("./schema.js")
+const { Event, Day } = require("./schema.js")
 const seedData = require("./seeds-data.json")
 
-const Event = mongoose.model("Event")
-
-Event.remove({})
+Day.remove({})
   .then(() => {
-    Event.collection.insert(seedData).then(data => {
+    Day.collection.insert(seedData).then(data => {
       console.log(data)
       process.exit()
     })

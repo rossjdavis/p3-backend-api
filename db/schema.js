@@ -7,9 +7,13 @@ const EventSchema = new mongoose.Schema({
     lat: Number,
     lng: Number
   },
-  date: String,
   time: String,
   participants: Array
+})
+
+const DaySchema = new mongoose.Schema({
+  date: String,
+  events: [EventSchema]
 })
 
 // const UserSchema = new Schema({
@@ -17,7 +21,12 @@ const EventSchema = new mongoose.Schema({
 //   events: [EventSchema]
 // })
 
-mongoose.model("Event", EventSchema)
+const Event = mongoose.model("Event", EventSchema)
+const Day = mongoose.model("Day", DaySchema)
+
 // const User = mongoose.model("User", UserSchema)
 
-module.exports = mongoose
+module.exports = {
+  Event,
+  Day
+}

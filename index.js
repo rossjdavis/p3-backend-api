@@ -1,8 +1,7 @@
 const express = require("express")
 const parser = require("body-parser")
 const cors = require("cors")
-const mongoose = require("./db/schema.js")
-const Event = mongoose.model("Event")
+const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
@@ -10,12 +9,48 @@ app.set("port", process.envPORT || 3001)
 app.use(parser.json())
 app.use(cors())
 
+app.get("/api/:date", (req, res) => {
+  Day.findOne({ date: req.params.date })
+    .then(day => {
+      res.json(day)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err })
+    })
+})
+
+app.post("/api/:date", (req, res) => {
+  Day.create(req.params.date)
+    .then(day => {
+      res.json(day)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err })
+    })
+})
+
+app.post("/api/:date/events", (req, res) => {
+  Day.findOne({ date: req.params.date })
+    .then(day => {
+      day.event.push(req.body.event)
+      day.save(() => {
+        res.status(200).json(day)
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err })
+    })
+})
+
 app.get("/api/events", (req, res) => {
   let date = new Date()
   let fulldate = `${date.getMonth() +
     1}-${date.getDate()}-${date.getFullYear()}`
 
-  Event.find({ date: fulldate })
+  Day.find({ date: fulldate })
     .then(events => {
       res.json(events)
     })
@@ -25,32 +60,10 @@ app.get("/api/events", (req, res) => {
     })
 })
 
-app.get("/api/events/date/:date", (req, res) => {
-  Event.findOne({ date: req.params.date })
-    .then(events => {
-      res.json(events)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
-
-app.get("/api/events/id/:id", (req, res) => {
+app.get("/api/events/:id", (req, res) => {
   Event.findOne({ _id: req.params.id })
     .then(event => {
       res.json(event)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
-
-app.post("/api/events", (req, res) => {
-  Event.create(req.body)
-    .then(event => {
-      res.status(200).json(event)
     })
     .catch(err => {
       console.log(err)
