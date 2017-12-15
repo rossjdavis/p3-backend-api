@@ -1,5 +1,3 @@
-hello world
-
 const express = require("express")
 const parser = require("body-parser")
 const cors = require("cors")
@@ -15,7 +13,7 @@ app.use(cors())
 app.get("/api/events", (req, res) => {
   let date = new Date()
   let fulldate = `${date.getMonth() +
-    1}/${date.getDate()}/${date.getFullYear()}`
+    1}-${date.getDate()}-${date.getFullYear()}`
 
   Event.find({ date: fulldate })
     .then(events => {
@@ -27,12 +25,8 @@ app.get("/api/events", (req, res) => {
     })
 })
 
-app.get("/api/events/:date", (req, res) => {
-  let date = req.params.date
-  let fulldate = `${date.getMonth() +
-    1}/${date.getDate()}/${date.getFullYear()}`
-
-  Event.find({ date: fulldate })
+app.get("/api/events/date/:date", (req, res) => {
+  Event.findOne({ date: req.params.date })
     .then(events => {
       res.json(events)
     })
@@ -42,7 +36,7 @@ app.get("/api/events/:date", (req, res) => {
     })
 })
 
-app.get("/api/events/:id", (req, res) => {
+app.get("/api/events/id/:id", (req, res) => {
   Event.findOne({ _id: req.params.id })
     .then(event => {
       res.json(event)
