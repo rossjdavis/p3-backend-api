@@ -1,11 +1,24 @@
-const mongoose = require("./connection.js")
+const Schema = require("./connection.js")
 
-const EventSchema = new mongoose.Schema({
+const EventSchema = new Schema({
   description: String,
   name: String,
-  lat: Number,
-  lng: Number,
-  time: Date
+  position: {
+    lat: Number,
+    lng: Number
+  }
+  time: Date,
+  participants: Array,
 })
 
-module.exports = mongoose
+// const UserSchema = new Schema({
+//   name: String,
+//   events: [EventSchema]
+// })
+
+const Event = mongoose.model("Event", EventSchema)
+// const User = mongoose.model("User", UserSchema)
+
+module.exports = {
+  Event
+}
