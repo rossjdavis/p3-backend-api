@@ -1,0 +1,52 @@
+[
+  {
+    "description" : "Come meet up for a run along the Potomac and enjoy the Cherry Blossoms in bloom.",
+    "name" : "West Potomac Park Run",
+    "position" : {
+      "lat" : 38.885557,
+      "lng" : -77.047226
+    },
+    "time" : "03/04/2018",
+    "participants" : ["Sarah", "Marty", "Bob", "Lisa", "Elizabeth", "Tony", "Mary"]
+  },
+  {
+    "description" : "Join us for a brisk walk along the Meadowlink Trail and enjoy the splendor of Rock Creek.",
+    "name" : "Meadowlink Trail in Rock Creek Park",
+    "position" : {
+      "lat" : 38.938654,
+      "lng" : -77.049105
+    },
+    "time" : "04/18/2018",
+    "participants" : ["Allison", "Bruce", "Parker", "Megan", "Peter"]
+  },
+  {
+    "description" : "Enjoy the sights and sounds of the sea wharf.",
+    "name" : "Anacostia Riverwalk",
+    "position" : {
+      "lat" : 38.872755,
+      "lng" : -77.001590
+    },
+    "time" : "06/26/2018",
+    "participants" : ["James", "Wendy", "John", "Billy", "Smee", "Serena", "Arthur", "Rosemary"]
+  },
+  {
+    "description" : "Discover the wonder that inspired Benjamin Banneker to help design the cardinal points of Washington, DC.  Learn about the self-taught astromer.",
+    "name" : "Benjamin Banneker Park",
+    "position" : {
+      "lat" : 38.881662,
+      "lng" : -77.025989
+    },
+    "time" : "10/12/2018",
+    "participants" : ["George", "Margaret", "Paula", "Thomas", "Ben", "Erica", "Jessica"]
+  },
+  {
+    "description" : "Bricks paths and the quiet sounds of Georgetown.",
+    "name" : "C & O Canal",
+    "position" : {
+      "lat" : 38.904316,
+      "lng" : -77.068120
+    },
+    "time" : "09/14/2018",
+    "participants" : ["Matt", "Nadine", "Marshal", "Jeff", "Cameron"]
+  }
+]
