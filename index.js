@@ -5,6 +5,16 @@ const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
+function dayExists(day) {
+  Day.findOne({ date: day })
+    .then(() => {
+      return true
+    })
+    .catch(() => {
+      return false
+    })
+}
+
 app.set("port", process.envPORT || 3001)
 app.use(parser.json())
 app.use(cors())
@@ -20,37 +30,49 @@ app.get("/api/:date", (req, res) => {
     })
 })
 
-app.post("/api/:date", (req, res) => {
-  Day.create(req.params.date)
-    .then(day => {
-      res.json(day)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
+// app.post("/api/:date", (req, res) => {
+//   Day.create(req.params.date)
+//     .then(day => {
+//       res.json(day)
+//     })
+//     .catch(err => {
+//       console.log(err)
+//       res.status(500).json({ error: err })
+//     })
+// })
 
-app.post("/api/:date/events", (req, res) => {
-  Day.findOne({ date: req.params.date })
-    .then(day => {
-      day.event.push(req.body.event)
-      day.save(() => {
-        res.status(200).json(day)
+app.post("/api/:date/new-event", (req, res) => {
+  if (dayExists(req.params.date)) {
+    Day.findOne({ date: req.params.date })
+      .then(day => {
+        day.event.push(req.body)
+        day.save(() => {
+          res.status(200).json(day)
+        })
       })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
+      .catch(err => {
+        res.status(500).json({ error: err })
+      })
+  } else {
+    Day.create({ date: req.params.date })
+      .then(day => {
+        day.events.push(req.body)
+        console.log(day)
+      })
+      .then(day => {
+        day.save(() => {
+          res.status(200).json(day)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json({ error: err })
+      })
+  }
 })
 
-app.get("/api/events", (req, res) => {
-  let date = new Date()
-  let fulldate = `${date.getMonth() +
-    1}-${date.getDate()}-${date.getFullYear()}`
-
-  Day.find({ date: fulldate })
+app.get("/api/events/all", (req, res) => {
+  Event.find({})
     .then(events => {
       res.json(events)
     })
