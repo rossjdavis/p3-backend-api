@@ -5,8 +5,8 @@ const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
-function dayExists(day) {
-  Day.findOne({ date: day })
+function dayExists(date) {
+  Day.findOne({ date: date })
     .then(() => {
       return true
     })
@@ -29,17 +29,6 @@ app.get("/api/:date", (req, res) => {
       res.status(500).json({ error: err })
     })
 })
-
-// app.post("/api/:date", (req, res) => {
-//   Day.create(req.params.date)
-//     .then(day => {
-//       res.json(day)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(500).json({ error: err })
-//     })
-// })
 
 app.post("/api/:date/new-event", (req, res) => {
   if (dayExists(req.params.date)) {
