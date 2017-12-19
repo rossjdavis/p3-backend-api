@@ -46,9 +46,6 @@ app.post("/api/:date/new-event", (req, res) => {
     Day.create({ date: req.params.date })
       .then(day => {
         day.events.push(req.body)
-        console.log(day)
-      })
-      .then(day => {
         day.save(() => {
           res.status(200).json(day)
         })
