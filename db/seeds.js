@@ -6,6 +6,7 @@ Day.remove({}).then(() => {
     Day.create(data)
       .then(data => {
         console.log(data)
+        process.exit()
       })
       .catch(err => {
         console.log(err)
