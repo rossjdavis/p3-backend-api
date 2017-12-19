@@ -16,15 +16,8 @@ const DaySchema = new mongoose.Schema({
   events: [EventSchema]
 })
 
-// const UserSchema = new Schema({
-//   name: String,
-//   events: [EventSchema]
-// })
-
 const Event = mongoose.model("Event", EventSchema)
 const Day = mongoose.model("Day", DaySchema)
-
-// const User = mongoose.model("User", UserSchema)
 
 module.exports = {
   Event,
