@@ -5,15 +5,12 @@ const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
-function dayExists(date) {
-  Day.findOne({ date: date })
-    .then(() => {
-      return true
-    })
-    .catch(() => {
-      return false
-    })
-}
+function dayExists(dateToFind) {
+  if (Day.find({date: dateToFind}).count() == 0) {
+    return false
+} else {
+  return true
+}}
 
 app.set("port", process.envPORT || 3001)
 app.use(parser.json())
@@ -30,11 +27,12 @@ app.get("/api/:date", (req, res) => {
     })
 })
 
-app.post("/api/:date/new-event", (req, res) => {
+app.post("/api/:date", (req, res) => {
+  console.log(req.params.date)
   if (dayExists(req.params.date)) {
     Day.findOne({ date: req.params.date })
       .then(day => {
-        day.event.push(req.body)
+        day.events.push(req.body)
         day.save(() => {
           res.status(200).json(day)
         })
