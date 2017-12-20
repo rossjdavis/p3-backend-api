@@ -5,14 +5,6 @@ const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
-function dayExists(dateToFind) {
-  if (Day.find({ date: dateToFind }).count() === 0) {
-    return false
-  } else {
-    return true
-  }
-}
-
 app.set("port", process.envPORT || 3001)
 app.use(parser.json())
 app.use(cors())
@@ -29,32 +21,28 @@ app.get("/api/:date", (req, res) => {
 })
 
 app.post("/api/:date/new-event", (req, res) => {
-  console.log(req.params.date)
-  if (dayExists(req.params.date)) {
-    Day.findOne({ date: req.params.date })
-      .then(day => {
-        day.events.push(req.body)
-        day.save(() => {
-          res.status(200).json(day)
+  Day.count({ date: req.params.date })
+    .then(c => {
+      if (c > 0) {
+        Day.findOne({ date: req.params.date }).then(day => {
+          day.events.push(req.body)
+          day.save(() => {
+            res.status(200).json(day)
+          })
         })
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(500).json({ error: err })
-      })
-  } else {
-    Day.create({ date: req.params.date })
-      .then(day => {
-        day.events.push(req.body)
-        day.save(() => {
-          res.status(200).json(day)
+      } else {
+        Day.create({ date: req.params.date }).then(day => {
+          day.events.push(req.body)
+          day.save(() => {
+            res.status(200).json(day)
+          })
         })
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(500).json({ error: err })
-      })
-  }
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err })
+    })
 })
 
 // app.put("/api/:date/:id/add-participant", (req, res) => {
