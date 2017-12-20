@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 
 mongoose.connect("mongodb://localhost/p3-backend-api", { useMongoClient: true })
+mongoose.Promise = Promise
 
 module.exports = mongoose

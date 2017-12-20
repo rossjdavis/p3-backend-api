@@ -6,11 +6,12 @@ const { Event, Day } = require("./db/schema.js")
 const app = express()
 
 function dayExists(dateToFind) {
-  if (Day.find({date: dateToFind}).count() == 0) {
+  if (Day.find({ date: dateToFind }).count() === 0) {
     return false
-} else {
-  return true
-}}
+  } else {
+    return true
+  }
+}
 
 app.set("port", process.envPORT || 3001)
 app.use(parser.json())
@@ -27,7 +28,7 @@ app.get("/api/:date", (req, res) => {
     })
 })
 
-app.post("/api/:date", (req, res) => {
+app.post("/api/:date/new-event", (req, res) => {
   console.log(req.params.date)
   if (dayExists(req.params.date)) {
     Day.findOne({ date: req.params.date })
@@ -38,6 +39,7 @@ app.post("/api/:date", (req, res) => {
         })
       })
       .catch(err => {
+        console.log(err)
         res.status(500).json({ error: err })
       })
   } else {
@@ -55,45 +57,27 @@ app.post("/api/:date", (req, res) => {
   }
 })
 
-app.get("/api/events/all", (req, res) => {
-  Event.find({})
-    .then(events => {
-      res.json(events)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
+// app.put("/api/:date/:id/add-participant", (req, res) => {
+//   Day.findOne({ date: req.params.date }).then(day =>{
+//     day.events.findById(req.params.id).then(event, day => {
+//       event.participants.push(req.body)
+//       day.save(() => {
+//         res.status.(200).json(event)
+//       })
+//     })
+//   }).catch(err => {
+//     res.status(500).json({error:err})
+//   })
+// })
 
-app.get("/api/events/:id", (req, res) => {
-  Event.findOne({ _id: req.params.id })
-    .then(event => {
-      res.json(event)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
-
-app.put("/api/events/:id", (req, res) => {
-  Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true
-  })
-    .then(event => {
-      res.status(200).json(event)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ error: err })
-    })
-})
-
-app.delete("/api/events/:id", (req, res) => {
-  Event.findOneAndRemove({ _id: req.params.id })
-    .then(event => {
-      res.status(200).json(event)
+app.delete("/api/:date/remove-event/:id", (req, res) => {
+  Day.findOne({ date: req.params.date })
+    .then(day => {
+      console.log(day.events)
+      day.events.pull({ _id: req.params.id })
+      day.save().then(day => {
+        res.status(200).json(day)
+      })
     })
     .catch(err => {
       console.log(err)
