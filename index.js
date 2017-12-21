@@ -45,19 +45,6 @@ app.post("/api/:date/new-event", (req, res) => {
     })
 })
 
-// app.put("/api/:date/:id/add-participant", (req, res) => {
-//   Day.findOne({ date: req.params.date }).then(day =>{
-//     day.events.findById(req.params.id).then(event, day => {
-//       event.participants.push(req.body)
-//       day.save(() => {
-//         res.status.(200).json(event)
-//       })
-//     })
-//   }).catch(err => {
-//     res.status(500).json({error:err})
-//   })
-// })
-
 app.put("/api/:date/modify-event/:id", (req, res) => {
   Day.findOne({ date: req.params.date })
     .then(day => {
