@@ -5,7 +5,7 @@ const { Event, Day } = require("./db/schema.js")
 
 const app = express()
 
-app.set("port", process.envPORT || 3001)
+app.set("port", process.env.PORT || 3001)
 app.use(parser.json())
 app.use(cors())
 
