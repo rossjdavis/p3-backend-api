@@ -13,7 +13,7 @@ Our app was designed to allow users to post fitness events around DC that other 
 
 * Ross - backend api & frontend calendar / sidebar
 * Casey - backend api & frontend pigeonMap / geocoding
-* Jared - frontend nav-bar & styling
+* Jared - frontend nav & wireframes, styling
 
 ## Workflow, Technologies, & Deployment
 
