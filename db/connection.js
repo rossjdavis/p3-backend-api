@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 
-mongoose.connect("mongodb://localhost/p3-backend-api", { useMongoClient: true })
-mongoose.Promise = Promise
+if (process.env.NODE_ENV == "production") {
+  mongoose.connect(process.env.MLAB_URL)
+} else {
+  mongoose.connect("mongodb://localhost/p3-api")
+}
 
 module.exports = mongoose
